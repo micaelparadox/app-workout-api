@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Profiles {
+  id    String @id @default(uuid())
+  name  String
+  phone String
+  role  Profile_Roles
+}
+
+model Files {
+  id          String @id @default(uuid())
+  profile_id  String
+  file_path   String
+  description String
+  create_at   String
+}
+
+model Payments {
+  id         String @id @default(uuid())
+  payload_id String
+  profile_id String
+  file_path  String
+  status     String
+  created_at String
+}
+
+// Role and Status
+
+enum Payment_Status {
+  PENDING
+  PAID
+}
+
+model PaymentStatus {
+  id   Int  @id @default(autoincrement())
+  status Payment_Status
+}
+
+enum Profile_Roles {
+  ADMIN
+  CLIENT
+}
+
+model ProfileRoles {
+  id   Int  @id @default(autoincrement())
+  role Profile_Roles
+}
