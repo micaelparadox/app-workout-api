@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+
+  db_local:
+    user: root
+    image: postgres
+    ports:
+      - '5432:5432'
+    restart: always
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
