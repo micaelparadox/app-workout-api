@@ -11,27 +11,31 @@ datasource db {
 }
 
 model Profiles {
-  id    String @id @default(uuid())
-  name  String
-  phone String
-  role  Profile_Roles
+  id       Int           @id @default(autoincrement())
+  name     String
+  phone    String
+  role     Profile_Roles
+  file     Files[]
+  payments Payments[]
 }
 
 model Files {
-  id          String @id @default(uuid())
-  profile_id  String
+  id          Int      @id @default(autoincrement())
+  profile     Profiles @relation(fields: [profile_id], references: [id])
+  profile_id  Int
   file_path   String
-  description String
-  create_at   String
+  description String   @db.VarChar(255)
+  create_at   DateTime
 }
 
 model Payments {
-  id         String @id @default(uuid())
+  id         Int            @id @default(autoincrement())
   payload_id String
-  profile_id String
+  profile    Profiles       @relation(fields: [profile_id], references: [id])
+  profile_id Int
   file_path  String
-  status     String
-  created_at String
+  status     Payment_Status
+  created_at DateTime
 }
 
 // Role and Status
@@ -42,7 +46,7 @@ enum Payment_Status {
 }
 
 model PaymentStatus {
-  id   Int  @id @default(autoincrement())
+  id     Int            @id @default(autoincrement())
   status Payment_Status
 }
 
@@ -52,6 +56,6 @@ enum Profile_Roles {
 }
 
 model ProfileRoles {
-  id   Int  @id @default(autoincrement())
+  id   Int           @id @default(autoincrement())
   role Profile_Roles
 }
