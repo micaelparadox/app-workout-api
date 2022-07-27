@@ -17,25 +17,31 @@ model Profiles {
   role     Profile_Roles
   file     Files[]
   payments Payments[]
+
+  @@map("profiles")
 }
 
 model Files {
   id          Int      @id @default(autoincrement())
   profile     Profiles @relation(fields: [profile_id], references: [id])
-  profile_id  Int
-  file_path   String
-  description String   @db.VarChar(255)
-  create_at   DateTime
+  profile_id  Int      @map("profile_id")
+  file_path   String   @map("file_path")
+  description String   @map("description") @db.VarChar(255)
+  create_at   DateTime @map("create_at")
+
+  @@map("files")
 }
 
 model Payments {
   id         Int            @id @default(autoincrement())
-  payload_id String
+  payload_id String         @map("payload_id")
   profile    Profiles       @relation(fields: [profile_id], references: [id])
-  profile_id Int
-  file_path  String
+  profile_id Int            @map("profile_id")
+  filePath   String         @map("file_path")
   status     Payment_Status
-  created_at DateTime
+  created_at DateTime       @map("created_at")
+
+  @@map("payments")
 }
 
 // Role and Status
@@ -47,7 +53,9 @@ enum Payment_Status {
 
 model PaymentStatus {
   id     Int            @id @default(autoincrement())
-  status Payment_Status
+  status Payment_Status @map("payment_status")
+
+  @@map("payment_status")
 }
 
 enum Profile_Roles {
@@ -57,5 +65,7 @@ enum Profile_Roles {
 
 model ProfileRoles {
   id   Int           @id @default(autoincrement())
-  role Profile_Roles
+  role Profile_Roles @map("profile_role")
+
+  @@map("profile_roles")
 }
