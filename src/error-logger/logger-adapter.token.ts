@@ -1,0 +1,1 @@
+export const LOGGER_ADAPTERS = "LOGGER_ADAPTERS"
